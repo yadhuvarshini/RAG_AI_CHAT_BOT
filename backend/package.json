@@ -1,0 +1,29 @@
+{
+  "name": "ai_rag_chat_bot",
+  "version": "1.0.0",
+  "description": "The Multi purpose use AI chatbot with RAG Methodology to give out answers from the provided documents.",
+  "main": "index.js",
+  "scripts": {
+  "start": "node server.js"
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yadhuvarshini/RAG_AI_CHAT_BOT"
+  },
+  "keywords": [
+    "AI"
+  ],
+  "author": "Yadhuvarshini R",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yadhuvarshini/RAG_AI_CHAT_BOT/issues"
+  },
+  "homepage": "https://github.com/yadhuvarshini/RAG_AI_CHAT_BOT#readme",
+  "dependencies": {
+    "axios": "^1.10.0",
+    "dotenv": "^17.2.0",
+    "express": "^5.1.0",
+    "multer": "^2.0.2",
+    "ws": "^8.18.3"
+  }
+}
