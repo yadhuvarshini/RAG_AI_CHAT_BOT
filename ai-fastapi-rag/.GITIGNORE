@@ -1,4 +1,5 @@
 .env
+
 implementation.txt
 venv
 __pycache__
