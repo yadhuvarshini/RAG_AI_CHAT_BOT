@@ -7,6 +7,7 @@ from rag.embedder import get_embedding_function
 from rag.retriever import store_documents, retrieve_similar_docs
 from fastapi.middleware.cors import CORSMiddleware
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from auth.auth import router as auth_router
 
 # Gemini integration
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -22,6 +23,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth_router, prefix="/auth", tags=["auth"])
 
 @app.post("/process")
 async def process_file(file: UploadFile = File(...)):
@@ -70,3 +72,4 @@ Answer:"""
         }
     except Exception as e:
         return {"error": str(e)}
+

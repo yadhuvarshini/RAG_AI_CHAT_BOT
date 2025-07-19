@@ -15,6 +15,8 @@ const uploadRoutes = require('./routes/upload');
 //to create ws 
 const setupWebSocket = require('./ws/socket');
 
+const authRoutes = require('./routes/auth');
+
 dotenv.config();
 
 const app = express();
@@ -26,12 +28,16 @@ setupWebSocket(wss);
 
 // Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 //public accessiblity to uploads folder
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes
 app.use('/api/upload', uploadRoutes);
+
+app.use('/auth', authRoutes);
 
 // Start server
 const PORT = process.env.PORT || 3000;

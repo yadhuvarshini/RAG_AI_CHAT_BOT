@@ -6,8 +6,10 @@ function setupWebSocket(wss) {
 
     ws.on('message', async (message) => {
       console.log('Received:', message);
-      const question = message.toString().trim();
-      console.log('Question:', question);
+      // const question = message.toString().trim();
+      // console.log('Question:', question);
+      const parsed = JSON.parse(message);
+      const { question, token } = parsed;
 
       try {
         
