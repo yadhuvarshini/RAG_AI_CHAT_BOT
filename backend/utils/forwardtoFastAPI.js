@@ -7,7 +7,7 @@ async function forwardToFastAPI(filePath) {
   const form = new FormData();
   form.append('file', fs.createReadStream(filePath));
 
-  const res = await axios.post('http://localhost:8000/process', form, {
+  const res = await axios.post('http://127.0.0.1:8000/process', form, {
     headers: form.getHeaders(),
   });
 
