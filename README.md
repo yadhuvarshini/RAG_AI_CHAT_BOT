@@ -1,29 +1,6 @@
 
 # 🌐 AI Document Chat - Complete Technical Documentation 
 
-```mermaid
-
-graph TD
-    subgraph Frontend
-        A[Streamlit UI] --> B[React Components]
-    end
-
-    subgraph Backend
-        C[Node.js Proxy] --> D[Auth Service]
-        C --> E[WebSocket Gateway]
-        D --> F[FastAPI Microservice]
-    end  
-    
-    subgraph Data Layer
-        F --> G[(MongoDB)]
-        F --> H[(Redis)]
-    end
-    
-    subgraph AI Providers
-        F --> I[Google Vertex AI]
-        F --> J[TogetherAI]
-    end
-```
 
 ## 🔗 Table of Contents
 1. [System Architecture](#-system-architecture)
@@ -50,6 +27,31 @@ flowchart LR
         C --> E[WebSocket Gateway]
         D --> F[FastAPI Microservice]
     end
+    
+    subgraph Data Layer
+        F --> G[(MongoDB)]
+        F --> H[(Redis)]
+    end
+    
+    subgraph AI Providers
+        F --> I[Google Vertex AI]
+        F --> J[TogetherAI]
+    end
+```
+
+### Flow
+```mermaid
+
+graph TD
+    subgraph Frontend
+        A[Streamlit UI] --> B[React Components]
+    end
+
+    subgraph Backend
+        C[Node.js Proxy] --> D[Auth Service]
+        C --> E[WebSocket Gateway]
+        D --> F[FastAPI Microservice]
+    end  
     
     subgraph Data Layer
         F --> G[(MongoDB)]
