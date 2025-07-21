@@ -1,7 +1,5 @@
 
-````# 🌐 AI Document Chat - Complete Technical Documentation
-
-```mermaid
+````# 🌐 AI Document Chat - Complete Technical Documentation ```mermaid
 graph TD
     A[Client] --> B[Cloudflare]
     B --> C[Load Balancer]
