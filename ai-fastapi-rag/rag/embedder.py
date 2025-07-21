@@ -1,16 +1,22 @@
-# rag/embedder.py
-import os
-from dotenv import load_dotenv
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings  # Updated import
+from typing import Union, List
+import numpy as np
 
-load_dotenv()  # Load .env file
-
-def get_embedding_function():
-    api_key = os.getenv("GOOGLE_API_KEY")
-    if not api_key:
-        raise ValueError("GOOGLE_API_KEY not found in environment variables.")
+class AsyncHuggingFaceEmbeddings(HuggingFaceEmbeddings):
+    """Wrapper to add async methods to HuggingFaceEmbeddings"""
     
-    return GoogleGenerativeAIEmbeddings(
-        model="models/embedding-001",  # ✅ use 'model', not 'model_name'
-        google_api_key=api_key
+    async def aembed_documents(self, texts: List[str]) -> List[List[float]]:
+        """Async embed documents"""
+        return self.embed_documents(texts)
+    
+    async def aembed_query(self, text: str) -> List[float]:
+        """Async embed query"""
+        return self.embed_query(text)
+
+def get_embedding_function(model_name: str = "sentence-transformers/all-MiniLM-L6-v2") -> AsyncHuggingFaceEmbeddings:
+    """Returns embedding function with async support"""
+    return AsyncHuggingFaceEmbeddings(
+        model_name=model_name,
+        model_kwargs={'device': 'cpu'},  # Change to 'cuda' if you have GPU
+        encode_kwargs={'normalize_embeddings': True}
     )

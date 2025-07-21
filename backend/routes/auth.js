@@ -1,40 +1,71 @@
-// routes/auth.js
-
+// backend/routes/auth.js (Node.js Auth with JWT)
 const express = require('express');
-const axios = require('axios');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const mongoose = require('mongoose');
+const { MongoClient } = require('mongodb');
+require('dotenv').config();
+
 const router = express.Router();
 
-// Signup route
+const MONGO_URI = process.env.MONGO_DB_URI;
+const SECRET_KEY = process.env.SECRET_KEY;
+
+const client = new MongoClient(MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  tls: true, // optional, but okay to include
+});
+
+let usersCollection;
+
+(async () => {
+  try {
+    await client.connect();
+    const db = client.db(); // Uses default DB from URI
+    usersCollection = db.collection('users');
+  } catch (e) {
+    console.error('MongoDB connection error:', e);
+  }
+})();
+
+// Signup
 router.post('/signup', async (req, res) => {
   try {
-    const response = await axios.post('http://127.0.0.1:8000/auth/signup', req.body);
-    res.json(response.data);
+    const { username, email, password } = req.body;
+    if (!username || !email || !password) {
+      return res.status(400).json({ error: 'All fields required' });
+    }
+
+    const existing = await usersCollection.findOne({ email });
+    if (existing) return res.status(400).json({ error: 'Email already exists' });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await usersCollection.insertOne({ username, email, hashed_password: hashedPassword });
+
+    const token = jwt.sign({ sub: email }, SECRET_KEY, { expiresIn: '1h' });
+    res.json({ token });
   } catch (err) {
-    console.error('Signup error:', err.message);
+    console.error('Signup error:', err);
     res.status(500).json({ error: 'Signup failed' });
   }
 });
 
-// Login route
+// Login
 router.post('/login', async (req, res) => {
   try {
-    const formData = new URLSearchParams();
-    formData.append('username', req.body.username);
-    formData.append('password', req.body.password);
-    console.log('Username:', req.body.username);
-    console.log('Password:', req.body.password);
+    const { email, password } = req.body;
+    const user = await usersCollection.findOne({ email });
+    if (!user) return res.status(400).json({ error: 'Invalid credentials' });
 
-    const response = await axios.post('http://127.0.0.1:8000/auth/login', formData, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-    });
-    console.log('FastAPI response:', response.data);
-    res.json(response.data);
-    console.log('Login Sucess')
+    const isValid = await bcrypt.compare(password, user.hashed_password);
+    if (!isValid) return res.status(400).json({ error: 'Invalid credentials' });
+
+    const token = jwt.sign({ sub: email }, SECRET_KEY, { expiresIn: '1h' });
+    res.json({ token });
   } catch (err) {
-    console.error('Full error:', err.response?.data || err.message);
-    res.status(401).json({ error: 'Login failed' });
+    console.error('Login error:', err);
+    res.status(500).json({ error: 'Login failed' });
   }
 });
 
