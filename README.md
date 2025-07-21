@@ -1,7 +1,5 @@
-Here's the complete, all-in-one markdown documentation with embedded diagrams, API specs, and technical details:
 
-````markdown
-# 🌐 AI Document Chat - Complete Technical Documentation
+````# 🌐 AI Document Chat - Complete Technical Documentation
 
 ```mermaid
 graph TD
