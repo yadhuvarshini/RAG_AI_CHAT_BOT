@@ -1,17 +1,28 @@
 
-````# 🌐 AI Document Chat - Complete Technical Documentation ```mermaid
+# 🌐 AI Document Chat - Complete Technical Documentation 
+
+```mermaid
+
 graph TD
-    A[Client] --> B[Cloudflare]
-    B --> C[Load Balancer]
-    C --> D[Node.js:3000]
-    D --> E[FastAPI:8000]
-    E --> F[(MongoDB Atlas)]
-    E --> G[(Redis Cloud)]
-    D --> H[WebSocket Service]
-    E --> I[Gemini API]
-    E --> J[TogetherAI]
-    style A fill:#4b8bf5,color:white
-    style H stroke:#ff5500,stroke-width:4px
+    subgraph Frontend
+        A[Streamlit UI] --> B[React Components]
+    end
+
+    subgraph Backend
+        C[Node.js Proxy] --> D[Auth Service]
+        C --> E[WebSocket Gateway]
+        D --> F[FastAPI Microservice]
+    end  
+    
+    subgraph Data Layer
+        F --> G[(MongoDB)]
+        F --> H[(Redis)]
+    end
+    
+    subgraph AI Providers
+        F --> I[Google Vertex AI]
+        F --> J[TogetherAI]
+    end
 ```
 
 ## 🔗 Table of Contents
