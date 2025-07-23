@@ -14,6 +14,7 @@ function login() {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({ email, password }),
+    credentials: 'include' 
   })
   .then(res => res.json())
   .then(data => {
@@ -32,6 +33,7 @@ function signup() {
     method: "POST",
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({ username, email, password }),
+    credentials: 'include' 
   }).then(() => alert("Signup complete. Please log in."));
 }
 
@@ -47,6 +49,7 @@ function createChat() {
     method: "POST",
     headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
     body: JSON.stringify({ chat_name: name }),
+    credentials: 'include',
   })
   .then(res => res.json())
   .then(() => loadChats());
@@ -55,6 +58,7 @@ function createChat() {
 function loadChats() {
   fetch(`${API_URL}/api/chat/all`, {
     headers: { Authorization: `Bearer ${token}` },
+    credentials: 'include',
   })
   .then(res => res.json())
   .then(chats => {
@@ -87,6 +91,7 @@ function uploadFile() {
     method: "POST",
     headers: { Authorization: `Bearer ${token}` },
     body: formData,
+    credentials: 'include' 
   })
   .then(res => res.json())
   .then(data => {
