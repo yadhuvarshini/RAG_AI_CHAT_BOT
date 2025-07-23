@@ -32,7 +32,7 @@ setupWebSocket(wss);
 
 // CORS options
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://localhost:8000', 'http://localhost:8501', 'http://localhost:5500'],
+  origin: ['http://localhost:5173', 'http://localhost:8000', 'http://localhost:8501', 'http://localhost:5500', 'http://localhost'],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
